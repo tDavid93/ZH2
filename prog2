@@ -1,414 +1,92 @@
-//////////////////////////////////////////
-//Felhasználonév és hozzá tartozó jelszó//
-//////////////////////////////////////////
+    /*
+     * To change this license header, choose License Headers in Project Properties.
+     * To change this template file, choose Tools | Templates
+     * and open the template in the editor.
+     */
+    package toth_david;
 
- HashMap<String,String> m=new HashMap();
-        m.put("Ubul", "aaa");
-        m.put("Pisti", "abc");
-        m.put("Misi", "yyy");
-        m.put("Rudi", "qqq");
-        m.put("Edit", "ppp");
-        m.put("Mari", "123");
-        for(String s:m.keySet())
-        {System.out.println(s+ " : "+m.get(s));}
-    //jelszó és felhasnálónév bekérése egyszer
-       /* Scanner sc=new Scanner(System.in);
-        System.out.println("Adja meg a felhasznalonevet:");
-        String nev=sc.nextLine();
-        System.out.println("Adja meg a jelszot:");
-        String jelszo=sc.nextLine(); 
-        if(m.get(nev).equals(jelszo)){
-            System.out.println("Helyes ");
-        }else{
-            System.out.println("Helytelen ");
-        }*/
-        //jelszó és felhasnálónév bekérése addig, mig el nem talaljuk
-        Scanner sc=new Scanner(System.in);
-        String nev, jelszo;
-        do{
-        System.out.println("Adja meg a felhasznalonevet:");
-        nev=sc.nextLine();
-        System.out.println("Adja meg a jelszot:");
-        jelszo=sc.nextLine(); 
-        if(!m.get(nev).equals(jelszo)){System.out.println("Helytelen ");}}
-        while(!m.get(nev).equals(jelszo));
-        System.out.println("Helyes ");
-//////////////////////////////////////////////////////////////////////////////////////
-//Bekér 100 random számot halmazokba teszi és a kiiratja azt amelyik mindkettobe van//
-//////////////////////////////////////////////////////////////////////////////////////
-    
-PrintStream printStream=null;
-        try {
-            
-            printStream = new PrintStream("szamok1.txt");
-            for (int i = 0; i < 100; i++) {
-                printStream.println((int)(Math.random() * ((100 - 50) + 1)) + 50);
-            }
-            printStream = new PrintStream("szamok2.txt");
-            for (int i = 0; i < 100; i++) {
-                printStream.println((int)(Math.random() * ((70 - 30) + 1)) + 30);
+    import java.util.HashMap;
+    import java.util.Map;
+    import java.util.Random;
+    import java.util.Scanner;
+    import java.util.TreeSet;
+
+    /**
+     *
+     * @author coospace
+     */
+    public class Toth_David {
+
+        /**
+         * @param args the command line arguments
+         */
+        public static void main(String[] args) {
+
+
+            int listLenght = 0;
+
+            HashMap<Integer, Integer> randomNums = new HashMap<>();
+            TreeSet<Integer> setList = new TreeSet<>();
+            System.out.println("kérek egy pozitív egész számot");
+            Scanner sc = new Scanner(System.in);
+
+            Random rn  = new Random();
+            listLenght = sc.nextInt();
+            sc.nextLine(); //HOTFIX a NextInt nem olvassa be a sortörés karaktert 
+
+
+
+            for(int i = 0; i < listLenght; i++)
+            {
+                randomNums.put(i+1, rn.nextInt(51));
+
+
             }
 
-        } 
-        catch (IOException e){
-            System.err.println("hiba történt: "+ e.getMessage());
-        } 
-        finally{
-            if(printStream !=null){
-               printStream.close(); 
-            }
+            int maxRandNum = 0;
+            int maxRandNumId = 0;
+
+          for (Map.Entry<Integer, Integer> e : randomNums.entrySet())
+          {
+              if(e.getValue() > maxRandNum)
+              {
+                  maxRandNum = e.getValue();
+                  maxRandNumId = e.getKey();
+              }
+
+          }
+
+
+          System.out.println("a legnagyobb szám sorszáma: "+ maxRandNumId);
+
+
+          for (Map.Entry<Integer, Integer> e : randomNums.entrySet())
+          {
+              setList.add(e.getValue());
+
+          }
+
+
+
+          
+          
+          System.out.println("A treeSet elemei:");
+          System.out.println(setList);
+          
+          System.out.println("A  treeSet Mérete");
+          System.out.println(setList.size());
+          
+          
+          
+          
+
+
+
+
+
+
+
+
         }
-        
-        Scanner scanner = null;
-        Set<String> halmaz1 = new HashSet<>();
-        Set<String> halmaz2 = new HashSet<>();
-        try {
-            scanner = new Scanner(new File("szamok1.txt"));
-            while(scanner.hasNextLine()) {
-            halmaz1.add(scanner.nextLine());
-            }
-            halmaz1.forEach((sz) -> {
-                //System.out.print(sz + ""); egy sor
-                System.out.println(sz +""); // soronkent
-             });
-            System.out.println("halmaz1");
-            
-            scanner = new Scanner(new File("szamok2.txt"));
-            while(scanner.hasNextLine()) {
-            halmaz2.add(scanner.nextLine());
-            }
-            halmaz2.forEach((sz) -> {
-                //System.out.print(sz + ""); egy sor
-                System.out.println(sz +""); // soronkent
-             });
-            System.out.println("halmaz2");                    
-        
-        } 
-        catch (IOException e) {
-        System.err.println("Hiba történt: " + e.getMessage());
-        } 
-        finally {
-            if (scanner != null) {
-            scanner.close();
-            
-            }
-        }
-        
-        halmaz1.stream().filter((szam) -> (halmaz2.contains(szam))).forEachOrdered((szam) -> {
-            System.out.print(szam + " ");
-        });
 
-///////////////////////////////////////////////////////////
-//Megadok pontokat majd elért pontszámok alapján kiiratom//
-///////////////////////////////////////////////////////////
-
-Random rnd=new Random();
-        LinkedHashMap<String,Integer> m=new LinkedHashMap();
-        m.put("Ubul", rnd.nextInt(3)+1);
-        m.put("Pisti", rnd.nextInt(3)+1);
-        m.put("Misi", rnd.nextInt(3)+1);
-        m.put("Rudi", rnd.nextInt(3)+1);
-        m.put("Edit", rnd.nextInt(3)+1);
-        m.put("Mari", rnd.nextInt(3)+1);
-        
-        for(int i=1;i<=3;i++)
-        {System.out.println(i+" pont:");
-        for(String s:m.keySet())
-        {if(i==m.get(s)){System.out.println(s+ " : "+m.get(s));}}
     }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//1. Hozzon létre egy szöveges fájlt jegyzettömbben, töltse fel minimum 5 sorral. Olvassa be a sorok karaktereinek számát egy halmazba. //
-//2. A halmazból jelenitse meg a 20nál kisebb számokat.										        //
-//3. A halmazból törölje a 40-nél nagyobb számokat.										        //			//4. Jelenitse meg a halmaz legkissebb és legnagyobb elemét.									        //
-//5. A halmaz tartalmának átlagát irja be egy másik fájlba.									        //		
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-public class Zh1B {
-    static void line(){
-        System.out.println("");
-        System.out.println("--------");
-    }
-    static DecimalFormat df2 = new DecimalFormat("#.##"); // formázás 2 tizedes jegyre. hivatkozás: df2.format(szám);
-    //1:Olvassa be a sorok karaktereinek számát egy halmazba. 
-        Scanner scanner       = null;
-        Set<String> stringSet = new HashSet<>();
-        Set<Integer> intSet   = new HashSet<>();
-        
-        try 
-        {
-        // halmazok feltöltése:
-            scanner = new Scanner(new File("text.txt"));
-            while(scanner.hasNextLine()) 
-            {
-                stringSet.add(scanner.nextLine());
-            }
-            // számokkal feltölt:
-            stringSet.forEach( (str) -> {intSet.add(str.length());} );
-            
-        //kiiratás:
-            System.out.println("A halmaz:");
-            for(int num :intSet )
-            {
-            System.out.print(num+ ", ");
-            scanner.close();
-            }
-        } 
-        catch (IOException e)  {System.err.println("Hiba történt: " + e.getMessage());} 
-        finally  { if (scanner != null) {scanner.close();}  }
-        
-    line();
-    //2:/A halmazból jelenitse meg a 20nál kisebb számokat. 
-    
-        System.out.println("A halmaz 20-nál kissebb elemei(szűréssel):");
-            for(int num :intSet )
-            {
-                if(num<20)
-                {
-                    System.out.print(num+ ", ");
-                    scanner.close();
-                }
-            }
-    line();       
-    //3:/A halmazból törölje a 40-nél nagyobb számokat.
-        for(int num :intSet )
-            {
-                if(num>40)
-                {
-                    intSet.remove(num);
-                    scanner.close();
-                }
-            }
-        System.out.println("A halmaz (40-nél nagyobb elemek törölve):");
-        for(int num :intSet )
-            {
-                    System.out.print(num+ ", ");
-                    scanner.close();
-            }
-    line();    
-    //4:/Jelenitse meg a halmaz legkissebb és legnagyobb elemét.
-
-        System.out.print("A halmaz legkissebb eleme: ");
-        Object objMin = Collections.min(intSet);
-        System.out.println(objMin);
-        
-        System.out.print("A halmaz legnagyobb eleme: ");
-        Object objMax = Collections.max(intSet);
-        System.out.print(objMax);
-        
-    line();
-    //5:/A halmaz tartalmának átlagát irja be egy másik fájlba.
-    
-        //új file:
-        RandomAccessFile raf;
-        try
-        {
-            raf = new RandomAccessFile("average.txt","rw");
-            raf.close();
-        }
-        catch (IOException e){ System.err.print("Error!"); }
-        
-        // halmaz átlaga:
-        int    sum = 0;
-        for (int number : intSet) {sum += number;}//halmaz elemeinek összeadása
-        double avg = (double)sum / intSet.size();//összeg/elemek száma
-        
-        System.out.print("A halmaz elemeinek átlaga:"+df2.format(avg));
-        
-        //beírás file-ba:
-        PrintStream ps;
-        try
-        {
-            ps = new PrintStream("average.txt");
-            ps.println(df2.format(avg));
-        }
-        catch(IOException e){System.err.print("Error!");}
-        System.out.println("");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//1. Hozzon létre egy szöveges fájlt, töltse fel 100 db random számmal ( egy szám többször is szerepelhet). 0-200 közötti számokkal.//
-//2. A fájl tartalmát olvassa be egy halmazba.											    //
-//3. Bill-ről olvasson be 5 számot és ellenőrizze hogy tartalmazza e a halmaz.							    //
-//4. Ha tartalmazza, akkor az adott szám négyzetét írja egy másik fájlb és tölrölje a halmazból.				    //
-//5. Számolja meg, hogy hány elemet tartalmaz a létrehozott halmaz. Az eredményt irassa ki képernyőre.				    //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-1./fájl létrehozás:
-        RandomAccessFile raf;
-        try  
-        { 
-            raf = new RandomAccessFile("numbers.txt","rw"); 
-            raf.close();
-        }
-        catch( IOException e )  {System.err.println("HIBA");}
-        
-        //fájl feltöltése random számokkal (0-200, 100db)
-        PrintStream ps   =   null;
-        Random rnd = new Random();
-        try
-        {
-            ps = new PrintStream("numbers.txt"); // itt adjuk meg, hova írja be
-            for (int i = 1; i < 100; i++) 
-            {
-                int rndNumber = rnd.nextInt(201); // feltöltés soronként
-                ps.println(rndNumber);            // beírás soronként
-            }
-        }
-        catch (IOException e){System.err.println("Error: "+ e.getMessage());}
-        finally              {if (ps != null) ps.close();}
-        
-    //2./fájl tartalmát halmazba olvas:
-        Set<Integer>list100 = new HashSet<>(); // a halmaz létrehozása
-        Scanner scanSet     = null; // "scanSet" ami beolvassa majd a halmazba a számokat
-        System.out.println("A halmaz elemei:");
-        try
-        {   // meglévő fájlból beolvas majd halmazba illeszt:
-            scanSet = new Scanner ( new File("numbers.txt"));
-            while (scanSet.hasNextInt()) 
-            {
-                list100.add(scanSet.nextInt());
-            }
-            //halmaz kiiratása:
-            for (int num : list100) 
-            {
-                System.out.print(num + ", ");
-                scanSet.close();
-            }
-            System.out.println("");
-        }
-        catch(IOException e){System.err.println("Error: "+e.getMessage());}
-        finally             {if(scanSet !=null) scanSet.close();}
-        
-    
-        
-    //3. Bill-ről olvasson be 5 számot és ellenőrizze hogy tartalmazza e a halmaz:
-        Scanner kboard     = new Scanner(System.in); // Scanner ami bill-ről kér számot majd
-        Set<Integer> list5 = new HashSet(); // az új halmazunk
-        for (int i = 1; i <= 5; i++) 
-        {
-            System.out.print("Adja meg a "+i+". számot: ");
-            int rndNumber = kboard.nextInt();
-            list5.add(rndNumber);
-        }
-        
-    
-        
-        System.out.println("Az 5 elemű halmaz: ");
-        for(int numb : list5)
-           {System.out.print(numb + ", ");}
-            System.out.println("");
-            
-    //4./ halmazok összehasonlítása:
-        
-        // similar: a 2 halmaz közös elemei új halmazba
-        Set<Integer> similar = new HashSet<>(list100); // hozzáadjuk a 100-as halmazt
-        similar.retainAll(list5); // zárójelben levő összes elem megtartása
-        list100.removeAll(similar);//erdeti 100 eleműből törli a közöseket
-        
-    
-        
-        // közös elemek kiiratása:
-        System.out.println("Közös elemek:");
-        for (int num : similar) {System.out.print(num+", ");}
-        
-        //új fájlba kiirat a közös elemek négyzetét:
-        //új file:
-        try  
-        { 
-            raf = new RandomAccessFile("newNumbers.txt","rw"); 
-            raf.close();
-        }
-        catch( IOException e ){System.err.println("HIBA");}
-        
-        //kiiratás:
-        PrintStream ps2 = null;
-        try
-        {
-            ps2 = new PrintStream("newNumbers.txt");
-            for (int num : similar) {ps2.println((int)Math.pow(num,2)+" ");}
-            
-        }
-        catch (IOException e){System.err.println("Error: "+ e.getMessage());}
-        finally {if (ps2 != null) ps2.close();}
-        System.out.println("");
-        
-  
-        
-    //5/Számolja meg, hogy hány elemet tartalmaz a létrehozott halmaz. Az eredményt irassa ki képernyőre.
-        System.out.println("Az új halmaz elemeinek száma: ");
-        System.out.println(similar.size());
-
-/////////
-//Lottó//
-/////////
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.RandomAccessFile;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-
- int n=0;
-     Set<Integer> halmaz = new HashSet<>();  //hasítótáblás megvalósítás    
-    do{
-     halmaz.clear();
-//menü kiíratása
-     System.out.println("Válaszzon az alábbi lehetőségek közül: ");
-     System.out.println("Beolvasás(0);Sorsolás(1);Kilépés(2)");
-//választás meghatározása, beolvasása
-    Scanner sc;
-    sc= new Scanner(System.in);
-    n=sc.nextInt();
-//Ha beolvasást válastottunk:
-    if(n==0){
-    String sor="";
-   try{
-       
-      RandomAccessFile f=new RandomAccessFile("lotto.txt","r");
-      sor=f.readLine(); 
-      while(sor!=null){
-       
-        String[]tomb=sor.split(";");
-        for(int i=0;i<5;i++){
-        halmaz.add(Integer.parseInt(tomb[i]));}
-        for(int szam :halmaz )
-    {
-        System.out.print(szam + " ");
-        }
-        halmaz.clear();
-        System.out.println();
-         sor=f.readLine();
-       }}
-   catch(IOException ex){ex.printStackTrace(); }
-   finally{}
-    }
- //Ha sorsolást választottunk: 
-    if(n==1){
-    int sz;
-    //Elem hozzáadása
-    while (halmaz.size()!=5){
-        sz = (int)(Math.random()*90)+1;
-        halmaz.add(sz);
-    }
-   //Halmaz tartalmanak kiratasa
-   for(int szam :halmaz )
-    {
-            System.out.print(szam + " ");
-        }
-   //Halmaz tartalmanak fileba irasa
-   PrintWriter f=null;
-   try{
-      f=new PrintWriter(new FileWriter("lotto.txt",true));
-        for(int szam :halmaz )
-        {
-            f.print(szam+";");
-        }
-        f.println();
-   }
-   catch(IOException ex){ex.printStackTrace(); }
-   finally{f.close();}
-    }
-    }
-    while(n!=2);
-        
