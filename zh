@@ -1,0 +1,82 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package toth_david;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+/**
+ *
+ * @author coospace
+ */
+public class Toth_David {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+        
+        int listLenght = 0;
+        
+        HashMap<Integer, Integer> randomNums = new HashMap<>();
+        TreeSet<Integer> setList = new TreeSet<>();
+        
+        Scanner sc = new Scanner(System.in);
+        
+        Random rn  = new Random();
+        listLenght = sc.nextInt();
+        sc.nextLine();
+        
+        
+        
+        for(int i = 0; i < listLenght; i++)
+        {
+            randomNums.put(i+1, rn.nextInt(51));
+            
+            
+        }
+        
+        int maxRandNum = 0;
+        int maxRandNumId = 0;
+                
+      for (Map.Entry<Integer, Integer> e : randomNums.entrySet())
+      {
+          if(e.getValue() > maxRandNum)
+          {
+              maxRandNum = e.getValue();
+              maxRandNumId = e.getKey();
+          }
+          
+      }
+      
+      
+      System.out.println("a legnagyobb szám sorszáma: "+ maxRandNumId);
+      
+      
+      for (Map.Entry<Integer, Integer> e : randomNums.entrySet())
+      {
+          setList.add(e.getKey());
+          
+      }
+      
+      
+      
+      setList.size()
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+}
