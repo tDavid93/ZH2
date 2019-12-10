@@ -1,0 +1,329 @@
+﻿előző javító zh
+
+form1:
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Kiss_Csaba
+{
+    public partial class Form1 : Form
+    {
+        List<int> legkisebbTerf = new List<int>();
+        TerfogatFelszin TF;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (tbHossz.Text != "" && tbMag.Text != "" && tbSzel.Text != "")
+            {
+                int szel; int mag; int hossz;
+
+                if (int.TryParse(tbHossz.Text, out hossz) && int.TryParse(tbMag.Text, out mag) && int.TryParse(tbSzel.Text, out szel))
+                {
+                    TF = new TerfogatFelszin(mag, szel, hossz);
+                    listBox1.Items.Add(TF.ToString());
+                    tbHossz.Text = ""; tbMag.Text = ""; tbSzel.Text = "";
+                    legkTerf(TF);
+                }
+                else
+                {
+                    MessageBox.Show("Kérem, számot adjon meg!");
+                }
+            }
+        }
+        private void legkTerf(TerfogatFelszin terf)
+        {
+            int lTerf = terf.Terfogat();
+            legkisebbTerf.Add(lTerf);
+            int legkisebb = legkisebbTerf.Min();
+
+            lbTerfogat.Text = Convert.ToString(legkisebb) + " cm³";
+        }
+    }
+}
+
+tefogatfelszin:
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kiss_Csaba
+{
+    class TerfogatFelszin
+    {
+        private int szel;
+        private int hossz;
+        private int mag;
+
+        public TerfogatFelszin (int magassag, int szelesseg, int hosszusag)
+        {
+            this.szel = szelesseg;
+            this.mag = magassag;
+            this.hossz = hosszusag;
+        }
+        public int Terfogat()
+        {
+            return szel * mag * hossz;
+        }
+        public int Felszin()
+        {
+            return 2 * szel * szel + 4 * szel * mag;
+        }
+        public override string ToString()
+        {
+            return "Szélessége: " + szel + " cm; Magassága: " + mag + " cm; Hosszúsága: " + hossz + " cm; Felszíne: " + Felszin() + " cm²; Térfogata: " + Terfogat() + " cm³";
+        }
+
+
+
+
+    }
+}
+*************************************************************
+
+
+ez is zh-nak egy osztalya
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Csaba_Kiss
+{
+    class Meretek
+    {
+
+        private string teremNev;
+        private double teremHossz;
+        private double teremSzelesseg;
+        private double teremMagassag;
+
+        public Meretek(string nev, double hossz, double szelesseg, double magassag)
+        {
+            this.teremNev = nev;
+            this.teremHossz = hossz;
+            this.teremSzelesseg = szelesseg;
+            this.teremMagassag = magassag;
+        }
+        public double AlapTesMenny(double hossz, double szelesseg) // alap terület és mennyezet méter
+        {
+            return hossz * szelesseg;
+        }
+        public double FalFelulet(double szelesseg, double magassag) // falfelület
+        {
+            return szelesseg * magassag;
+        }
+        public override string ToString()
+        {
+            return teremNev + ": Hossz:" + teremHossz + " Szélesség:" + teremSzelesseg + " Magasság:" + teremMagassag;
+        }
+
+    }
+}
+*****************************************************
+
+mintazh
+
+form1:
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace MasodikZh
+{
+    public partial class Form1 : Form
+    {
+        string aFajlEleresiUtvonalaEsNeve = @"C:\MintaZH\IdeMentemAzAdatokat.txt";
+        List<Versenyzok> ver = new List<Versenyzok>();
+        Versenyzok versenyzokOsztalya;
+        List<int> junior = new List<int>();
+        List<int> senior = new List<int>();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // létrehozom a form betöltésénél az új fájlt. Ha már van ilyen fájl akkor békén hagyja
+            File.AppendAllText(aFajlEleresiUtvonalaEsNeve, "");
+            FajlKiolvaso(aFajlEleresiUtvonalaEsNeve);
+
+        }
+
+        private void btnUjVersenyzo_Click(object sender, EventArgs e)
+        {
+            FormUjVersenyzo ujFormMegnyit = new FormUjVersenyzo();
+            // Az FormUjVersenyzo konstruktorában(ez fut le legelőször mindig) lett beállítva, hogy az ottani "Rögzít" gombnak milyen legyen a "DialogResult"-jának a visszatérési értéke
+            if (ujFormMegnyit.ShowDialog() == DialogResult.OK)
+            {
+                FajlKiolvaso(aFajlEleresiUtvonalaEsNeve);
+            }
+            
+
+        }
+        private void FajlKiolvaso(string eleresiUtvonal)
+        {
+            listBox1.Items.Clear();
+            string egySor;
+            versenyzokOsztalya = new Versenyzok();
+            using (StreamReader reader = new StreamReader(eleresiUtvonal))
+            {
+                while ((egySor = reader.ReadLine()) != null)
+                {
+                    string[] egySorDarabokban = egySor.Split(';');
+                    versenyzokOsztalya.Nev = egySorDarabokban[0];
+                    versenyzokOsztalya.Kategoria = egySorDarabokban[1];
+                    versenyzokOsztalya.SzuletesiEv = Convert.ToInt32(egySorDarabokban[2]);
+                    listBox1.Items.Add("Név: " + versenyzokOsztalya.Nev + " Kategória: " + versenyzokOsztalya.Kategoria + " Születési év: " + versenyzokOsztalya.SzuletesiEv);
+                    AtlagEletkorEsSzamEll(versenyzokOsztalya.Kategoria, versenyzokOsztalya.SzuletesiEv);
+                }
+            }
+            
+        }
+        private void AtlagEletkorEsSzamEll(string kat, int szulev)
+        {
+            string year = DateTime.Now.Year.ToString();
+            int thisYear = Convert.ToInt32(year);
+            
+            if (kat.Equals("Senior"))
+                senior.Add(thisYear - szulev);
+            else if (kat.Equals("Junior"))
+                junior.Add(thisYear - szulev);
+
+        }
+
+        private void btnStat_Click(object sender, EventArgs e)
+        {
+            junior.Clear();
+            senior.Clear();
+            FajlKiolvaso(aFajlEleresiUtvonalaEsNeve);
+            panelStat.Visible = true;
+            double atlag = 0;
+            foreach (int item in senior)
+            {
+                atlag += item;
+            }
+            atlag /= senior.Count;
+            labelSenior.Text = "A Senior versenyzők száma " + senior.Count + " fő, átlag életkoruk " + atlag.ToString();
+            atlag = 0;
+            foreach (int item in junior)
+            {
+                atlag += item;
+            }
+            atlag /= junior.Count;
+            labelJunior.Text = "A Junior versenyzők száma " + junior.Count + " fő, átlag életkoruk " + atlag.ToString();
+
+        }
+    }
+}
+
+
+form2:
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace MasodikZh
+{
+    public partial class FormUjVersenyzo : Form
+    {
+        string aFajlEleresiUtvonalaEsNeve = @"C:\MintaZH\IdeMentemAzAdatokat.txt";
+        public FormUjVersenyzo()
+        {
+            InitializeComponent();
+            btnRogzit.DialogResult = DialogResult.OK; // ezzel tudod visszaadni a vezérlést a főformnak, (kikapcsolni az ujform-ot)
+        }
+        public void EllenorizEsFeltolt()
+        {
+            if (!tbKategoria.Text.Equals("") && !tbNev.Text.Equals("") && !tbSzulev.Text.Equals(""))
+            {
+                // Használd ezt a File.AppendAllText-et, a fájl írásához, ezt nem kell close-al lezárnod,
+                // valamint ha nincs a paramétereként megadott fájl létrehozva, akkor létrehozza
+                // File.AppendAllText("Ide jön a fájl elérési útvonala kiterjesztéssel", "ide pedig az elmentendő szöveg")
+                // Ha üres fájlt akarsz vele létrehozni akkor ennyi: File.AppendAllText("általad megadott elérési útvonal", "")  <-- egy üres string-et adsz át neki
+                // A File osztály használatához felülre írd be: using System.IO;
+                // Az ez alatti sor végén az Environment.Newline egy sordobást fog végezni a txt fájlban, így a következő rögzítésnél az adatok új sorba kerülnek
+                File.AppendAllText(aFajlEleresiUtvonalaEsNeve, tbNev.Text + ";" + tbKategoria.Text + ";" + tbSzulev.Text + Environment.NewLine);
+            }
+            else
+            {
+                MessageBox.Show("Tölts ki minden mezőt!");
+            }
+        }
+
+        private void btnRogzit_Click(object sender, EventArgs e)
+        {
+            EllenorizEsFeltolt();
+        }
+    }
+}
+
+
+versenyzok osztaly:
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MasodikZh
+{
+    class Versenyzok
+    {
+
+        private string nev;
+        private string kategoria;
+        private int szulev;
+        
+        public string Nev
+        {
+            get { return nev; }
+            set { nev = value; }
+        }
+        public string Kategoria
+        {
+            get { return kategoria; }
+            set { kategoria = value; }
+        }
+        public int SzuletesiEv
+        {
+            get { return szulev; }
+            set { szulev = value; }
+        }
+
+    }
+}
