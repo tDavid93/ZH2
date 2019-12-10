@@ -1,0 +1,176 @@
+// get-set in class:
+class sample
+{
+
+    string data
+
+    public string Data
+            {
+                get {  return data; }
+                set { data = value; }
+            }
+}
+
+// hibaüzenet kisablakba ( általába else ágban használt):
+MessageBox.Show("A kiírni kivánt üzenet!");
+
+// gombra új form nyitás:
+     /* otherForm : megnyitni kívánt form neve
+        other : amivel kivatkozol rá (példányosított) */
+private void button_Click(object sender, EventArgs e)
+        {
+            otherForm other = new otherForm(); 
+            other.ShowDialog(); 
+            if (other.DialogResult == DialogResult.OK)
+            {
+                beolvas();
+                kiir();
+            }
+        }
+
+
+// lista egy class elemeivel:
+class Thing  {  int a; string s; boolean b DateTime dt;  } // csak példa osztály de használjuk a metódusokban
+List<Thing> Things = new List<Thing>();
+
+//kiir(), beolvas(), összesit() metódusok:
+        private void kiir()
+        {
+            listBox.Items.Clear();
+            foreach (CLASSNAME CN in LISTNAME)   //pl:List<CLASSNAME> LISTNAME = new List<CLASSNAME>();
+            {
+                listBox.Items.Add( CN.s);
+            } 
+        }
+
+        private void beolvas()
+        {
+            StreamReader reader = new StreamReader("filename.txt");
+            LISTNAME.Clear();
+            while (!reader.EndOfStream)
+            {
+                CLASSNAME classname = new CLASSNAME();
+
+                classname.s  = reader.ReadLine(); 
+                classname.a  = Convert.ToInt32     (reader.ReadLine());
+                classname.b  = Convert.ToBoolean   (reader.ReadLine());
+                classname.dt = Convert.ToDateTime  (reader.ReadLine());
+                LISTNAME.Add(classname);
+            }
+            reader.Close();
+        }
+// class elemek feltöltése textboxokba írt szövegből:
+
+List<CLASSNAME> classnames = new List<CLASSNAME>();
+private void button_Click(object sender, EventArgs e)
+{
+    CLASSNAME c = new CLASSNAME();
+    c.name=textBox.Text;
+    c.age = Convert.ToInt32(textBox2.Text);
+}
+
+// évszám ellenörzés és hiba ha nem jó:
+//számot írtál e bele:
+private void TEXTBOX_TextChanged(object sender, EventArgs e)
+        {
+            string str = TEXTBOX.Text;
+            if  str.Trim() == "") return;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!char.IsNumber str[i]))
+                {
+                    MessageBox.Show("Számot adj meg!");
+                    TEXTBOX.Text = "";
+                    return;
+                }
+
+            }
+            
+        }
+
+// számot adj meg if-es (gombba):
+if (int.TryParse(textBox3.Text, out sulya) && double.TryParse(textBox4.Text, out magassaga))
+                {
+                    ...
+                }
+                else
+                {
+                    MessageBox.Show("Számot adj meg!");
+                    textBox2.Text = ""; textBox3.Text = ""; textBox4.Text = "";
+                }
+
+// textboxba írt elemek elhelyezése listboxba:
+
+// új sor:
++ Environment.NewLine;
+
+// ablak bezárása:
+this.Close();
+
+//StreamWriter:
+StreamWriter sw = new StreamWriter("valami.txt")
+
+//listbox elemeinek fájlba írása:
+if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+               StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
+
+                foreach (object item in listBox1.Items)
+
+                    sw.WriteLine(item.ToString());
+
+                sw.Close();
+            }
+
+//add item in listbox from another form
+ //Form1.cs:
+
+  Form2 f2 = new Form2();
+  f2.ShowDialog();
+
+ public  void UpdateListBox(string lstValue)
+ {
+   listBox1.Items.Add(lstValue);
+ }
+
+   //Form2.cs:
+  
+  Form1 f1= (Form1)Application.OpenForms["Form1"];
+  f1.UpdateListBox(textBox1.Text);
+
+
+//https://stackoverflow.com/questions/12818581/adding-item-to-listbox-from-second-form
+
+// egyebek:
+
+    public virtual string sample  // classon kívül is látható
+
+    //öröklés:
+    public class first : second // first örökli a second elemeit
+
+    //nemtudommárezmmi:
+
+            private void Button1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(openFileDialog1.FileName, Encoding.Default);
+                while (!sr.EndOfStream)
+                {
+                    listBox1.Items.Add(sr.ReadLine());
+                }
+                sr.Close();
+            }
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
+                foreach (object item in listBox1.Items)
+                    sw.WriteLine(item.ToString());
+                    sw.Close();
+            }
+
+        }
