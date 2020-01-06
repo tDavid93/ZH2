@@ -1,0 +1,68 @@
+import java.utils.Scanner;
+import java.io.*;
+
+
+class cls{
+
+public static void main(String[] args){
+
+	Scanner scn = new Scanner(System.in);
+	boolean isNotEnd = false;
+	HashMap<String,Integer> nameList = new HashMap<>();
+	
+	File fl = new File("names.txt");
+	fl.createNewFile();
+	
+	PrintStream fw = new PrintStream(fl);
+	
+	
+	
+
+	
+		//nevek beolvasasa
+		while(isNotEnd)
+		{
+			String tempStr = scn.nextLine();
+			if(tempStr == "end")
+			{
+				isNotEnd = true;
+			}
+			else
+			{
+				nameList.put(tempStr, tempStr.size()+1);
+			}
+		
+		
+		}
+		
+		int sum = 0;
+		
+		
+		
+		
+		for(Map.Entry<String,Integer> e : nameList.entrySet())
+		{
+			sum = sum + e.getValue();
+		}
+		
+		//atlag kiratas
+		System.out.println(sum/(nameList.size()+1));
+		
+		
+		for(Map.Entry<String,Integer> e : nameList.entrySet())
+		{
+			fw.println(e.getKey()+"; "+ e.getValue());
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+}
+}
