@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="stilus1.css" type="text/css" />
+    
+</head>
+
+<script>
+    window.onload = function () {
+        document.getElementById("div1").onmouseover = function () { mouseOver() };
+        document.getElementById("div1").onmouseout = function () { mouseOut() };
+
+        function mouseOver() {
+            document.getElementById("div1").style.color = "black";
+        }
+
+        function mouseOut() {
+            document.getElementById("div1").style.color = "yellow";
+        }
+
+
+
+
+
+    }
+</script>
+<body>
+
+    <div id="div1"  class="div1" style="font-style:italic" style="text-align:right">Jó estét!</div>
+    
+</body>
+</html>
